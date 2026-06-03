@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Post Ad - BazaarLink</title>
+
+<style>
+body{
+font-family:Arial;
+background:#f4f4f4;
+padding:30px;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:10px;
+}
+
+input, textarea{
+width:100%;
+padding:12px;
+margin:10px 0;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#4f46e5;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+#msg{
+margin-top:15px;
+font-weight:bold;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h2>Post New Ad</h2>
+
+<input type="text" id="title" placeholder="Product Title">
+
+<input type="number" id="price" placeholder="Price">
+
+<textarea id="description" placeholder="Description"></textarea>
+
+<button id="postBtn">Post Ad</button>
+
+<p id="msg"></p>
+
+</div>
+
+<script type="module">
+
+import { db } from './firebase.js';
+
+import {
+collection,
+addDoc
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+document.getElementById("postBtn").onclick = async ()=>{
+
+const title =
+document.getElementById("title").value;
+
+const price =
+document.getElementById("price").value;
+
+const description =
+document.getElementById("description").value;
+
+try{
+
+await addDoc(
+collection(db,"ads"),
+{
+title,
+price,
+description,
+createdAt:new Date()
+}
+);
+
+document.getElementById("msg").innerHTML =
+"Ad Posted Successfully";
+
+}catch(error){
+
+document.getElementById("msg").innerHTML =
+error.message;
+
+}
+
+};
+
+</script>
+
+</body>
+</html>
